@@ -39,19 +39,15 @@ setup_non_root_user
 
 # Initialize Docker Swarm
 echo "Initializing Docker Swarm..."
-docker swarm init --advertise-addr $(hostname -i)
+docker swarm init --advertise-addr=$(instance_public_ip)
 
 # Create overlay network
 echo "Creating overlay network..."
-docker network create --driver overlay --attachable aiservers_network
-
-# Create required volumes
-echo "Creating shared volume..."
-docker volume create volume_swarm_shared
+docker network create --driver overlay aiservers_network
 
 # Deploy Traefik stack
 echo "Deploying Traefik..."
-docker stack deploy -c traefik.yaml traefik
+docker stack deploy --prune --resolveimage -c traefik.yaml traefik
 
 # Wait for Traefik to be ready
 echo "Waiting for Traefik to be ready..."
@@ -59,7 +55,7 @@ sleep 10
 
 # Deploy Portainer stack
 echo "Deploying Portainer..."
-docker stack deploy -c portainer.yaml portainer
+docker stack deploy --prune --resolveimage -c portainer.yaml portainer
 
 # Check services status
 echo "Checking services status..."

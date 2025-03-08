@@ -12,17 +12,17 @@ provider "oci" {
   private_key_path = var.ssh_public_key  # .pem file for authentication on OCI Cloud
 
 }
-data "terraform_remote_state" "oci-terraform" {
+data "terraform_remote_state" "infra" {
   backend = "local"
 
   config = {
-    path = "../oci-terraform/terraform.tfstate" 
+    path = "../infra/terraform.tfstate" 
   }
 }
 
 # Ubuntu ARM64 Image Data Source
 data "oci_core_images" "ubuntu_arm64" {
-  compartment_id           = var.compartment_id
+  compartment_id           = data.terraform_remote_state.infra.outputs.compartment_id
   operating_system         = "Canonical Ubuntu"
   operating_system_version = "24.04 Minimal aarch64"
   shape                    = "VM.Standard.A1.Flex"
@@ -30,8 +30,8 @@ data "oci_core_images" "ubuntu_arm64" {
 
 # Compute Instance
 resource "oci_core_instance" "SRV1" {
-  compartment_id      = var.compartment_id
-  availability_domain = var.availability_domain_name
+  compartment_id      = data.terraform_remote_state.infra.outputs.compartment_id
+  availability_domain = data.terraform_remote_state.infra.outputs.availability_domain_name
   display_name        = "SRV1"
   shape               = "VM.Standard.A1.Flex"
 
@@ -47,7 +47,7 @@ resource "oci_core_instance" "SRV1" {
   }
 
   create_vnic_details {
-    subnet_id        = var.vcn_public_subnet
+    subnet_id        = data.terraform_remote_state.infra.outputs.public_subnet_id
     assign_public_ip = true
   }
 

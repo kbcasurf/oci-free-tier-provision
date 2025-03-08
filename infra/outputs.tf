@@ -9,3 +9,7 @@ output "security_list_id" {
 output "availability_domain_name" {
   value = data.oci_identity_availability_domains.ads.availability_domains[0].name
 }
+
+output "compartment_id" {
+  value = var.compartment_id
+}
