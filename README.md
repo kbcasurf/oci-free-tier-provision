@@ -2,8 +2,6 @@
 ```markdown
 # Oracle Cloud Infrastructure (OCI) Swarm Cluster Deployment
 
-![OCI Logo](https://upload.wikimedia.org/wikipedia/commons/5/5c/Oracle_cloud_logo.png)
-
 Terraform configurations to deploy a Swarm cluster on Oracle Cloud Infrastructure (OCI) Free Tier.
 
 ## Project Overview
