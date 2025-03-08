@@ -1,5 +1,4 @@
 services:
-
   agent:
     image: portainer/agent:2.27.0-alpine
     volumes:
@@ -27,7 +26,10 @@ services:
       labels:
         - "traefik.enable=true"
         - "traefik.docker.network=aiservers_network"
-        - "traefik.http.routers.portainer.rule=Host(`stacks.aiservers.com.br`)"
+#################################################################################################
+######  Update this row below with the subdomain+domain to access yout portainer interface  #####
+#################################################################################################
+        - "traefik.http.routers.portainer.rule=Host(`sub.domain.com`)"
         - "traefik.http.routers.portainer.entrypoints=websecure"
         - "traefik.http.routers.portainer.priority=1"
         - "traefik.http.routers.portainer.tls.certresolver=letsencryptresolver"

@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Load .env variables and apply Terraform
 source .env
 terraform init
@@ -26,6 +25,7 @@ echo "export TF_VAR_instance_display_name=\"${instance_display_name#*=}\"" >> "$
 echo "export TF_VAR_instance_id=\"${instance_id#*=}\"" >> "$tmp_file"
 echo "export TF_VAR_instance_private_ip=\"${instance_private_ip#*=}\"" >> "$tmp_file"
 echo "export TF_VAR_instance_public_ip=\"${instance_public_ip#*=}\"" >> "$tmp_file"
+sed -i "/setup_swarm() {/a \  ip_address=\"${instance_public_ip#*=}\"" ../swarm-deploy/deploySwarm.sh
 
 # Replace the original file
 mv "$tmp_file" .env
