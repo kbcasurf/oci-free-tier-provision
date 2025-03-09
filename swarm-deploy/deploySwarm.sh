@@ -136,7 +136,7 @@ EOF
 # Function to set up Docker Swarm, Traefik, and Portainer
 setup_swarm() {  
   # IP address exported automatically by ../vm/deploy.sh script
-  ip_address="137.131.204.35"
+  ip_address="ip_of_your_server_here"
   
   # Initialize Docker Swarm cluster
   docker swarm init --advertise-addr=$ip_address
